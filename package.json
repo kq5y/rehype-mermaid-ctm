@@ -1,0 +1,22 @@
+{
+  "name": "rehype-mermaid",
+  "version": "1.0.0",
+  "description": "rehype-mermaid",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build --declaration --emitDeclarationOnly"
+  },
+  "author": "kq5y",
+  "type": "module",
+  "files": ["index.js", "index.d.ts"],
+  "exports": "./index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/hast": "^3.0.4",
+    "@mermaid-js/mermaid-cli": "^11.4.0",
+    "mermaid": "^11.4.0",
+    "puppeteer": "^23.8.0",
+    "typescript": "^5.6.3",
+    "unified": "^11.0.5",
+    "unist-util-visit-parents": "^6.0.1"
+  }
+}
