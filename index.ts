@@ -10,6 +10,7 @@ type OutputType = "inline-svg" | "img-svg" | "img-png";
 
 interface RehypeMermaidCtmConfig {
   outputType?: OutputType;
+  imgAsyncLazy?: boolean;
   mermaidConfig?: Parameters<typeof mermaid.initialize>[0];
 }
 
@@ -135,6 +136,11 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
           className: "mermaid-image",
           width: `${dimensions.width}px`,
           height: `${dimensions.height}px`,
+          alt: "mermaid-image",
+          ...(options.imgAsyncLazy ? {
+            decoding: "async",
+            loading: "lazy",
+          } : {})
         });
         parent.children[nodeIndex] = makeElement(
           "div",
@@ -151,6 +157,11 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
           className: "mermaid-image",
           width: `${dimensions.width}px`,
           height: `${dimensions.height}px`,
+          alt: "mermaid-image",
+          ...(options.imgAsyncLazy ? {
+            decoding: "async",
+            loading: "lazy",
+          } : {})
         });
         parent.children[nodeIndex] = makeElement(
           "div",
