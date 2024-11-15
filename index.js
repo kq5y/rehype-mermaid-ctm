@@ -38,7 +38,7 @@ const rehypeMermaidCtm = (options = {}) => {
                     blocks.push({
                         content: child.value,
                         pre: preElement,
-                        parent: parent
+                        parent: parent,
                     });
                 }
             }
@@ -47,25 +47,27 @@ const rehypeMermaidCtm = (options = {}) => {
             return;
         }
         const browser = yield puppeteer.launch({
-            headless: true
+            headless: true,
         });
         for (const { content, pre, parent } of blocks) {
             const { data: svgData } = yield renderMermaid(browser, content, "svg", {
                 mermaidConfig: Object.assign({ flowchart: {
-                        defaultRenderer: "elk"
-                    } }, options === null || options === void 0 ? void 0 : options.mermaidConfig)
+                        defaultRenderer: "elk",
+                    } }, options === null || options === void 0 ? void 0 : options.mermaidConfig),
             });
             const nodeIndex = parent.children.indexOf(pre);
             parent.children[nodeIndex] = {
                 type: "element",
                 tagName: "div",
                 properties: {
-                    className: "mermaid-block"
+                    className: "mermaid-block",
                 },
-                children: [{
+                children: [
+                    {
                         type: "text",
-                        value: svgData.toString()
-                    }]
+                        value: Buffer.from(svgData).toString("utf-8"),
+                    },
+                ],
             };
         }
     });
