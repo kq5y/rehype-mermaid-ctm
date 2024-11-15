@@ -23,7 +23,7 @@ function isMermaidElement(node) {
     }
     return className.includes("language-mermaid");
 }
-const rehypeMermaidCtm = (options) => {
+const rehypeMermaidCtm = (options = {}) => {
     return (root) => __awaiter(void 0, void 0, void 0, function* () {
         const blocks = [];
         visitParents(root, "element", (node, ancestors) => {

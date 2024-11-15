@@ -1,5 +1,4 @@
 import { type Root, Element } from "hast"
-import { type Plugin } from "unified"
 
 import mermaid from "mermaid";
 import { visitParents } from "unist-util-visit-parents";
@@ -7,7 +6,7 @@ import puppeteer from "puppeteer";
 import { renderMermaid } from "@mermaid-js/mermaid-cli";
 
 interface RehypeMermaidCtmConfig {
-    mermaidConfig: Parameters<typeof mermaid.initialize>[0] | undefined
+    mermaidConfig?: Parameters<typeof mermaid.initialize>[0]
 }
 
 interface Block {
@@ -30,8 +29,8 @@ function isMermaidElement(node: Element): boolean {
     return className.includes("language-mermaid");
 }
 
-const rehypeMermaidCtm: Plugin<[RehypeMermaidCtmConfig?], Root> = (options) => {
-    return async (root) => {
+const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
+    return async (root: Root) => {
         const blocks: Block[] = [];
         visitParents(root, "element", (node, ancestors) => {
             if(!isMermaidElement(node)){
