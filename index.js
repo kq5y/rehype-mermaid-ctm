@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,13 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const unist_util_visit_parents_1 = require("unist-util-visit-parents");
-const puppeteer_1 = __importDefault(require("puppeteer"));
-const mermaid_cli_1 = require("@mermaid-js/mermaid-cli");
+import { visitParents } from "unist-util-visit-parents";
+import puppeteer from "puppeteer";
+import { renderMermaid } from "@mermaid-js/mermaid-cli";
 function isMermaidElement(node) {
     if (node.tagName !== "code") {
         return false;
@@ -31,7 +26,7 @@ function isMermaidElement(node) {
 const rehypeMermaidCtm = (options) => {
     return (root) => __awaiter(void 0, void 0, void 0, function* () {
         const blocks = [];
-        (0, unist_util_visit_parents_1.visitParents)(root, "element", (node, ancestors) => {
+        visitParents(root, "element", (node, ancestors) => {
             if (!isMermaidElement(node)) {
                 return;
             }
@@ -51,11 +46,11 @@ const rehypeMermaidCtm = (options) => {
         if (blocks.length === 0) {
             return;
         }
-        const browser = yield puppeteer_1.default.launch({
+        const browser = yield puppeteer.launch({
             headless: true
         });
         for (const { content, pre, parent } of blocks) {
-            const { data: svgData } = yield (0, mermaid_cli_1.renderMermaid)(browser, content, "svg", {
+            const { data: svgData } = yield renderMermaid(browser, content, "svg", {
                 mermaidConfig: Object.assign({ flowchart: {
                         defaultRenderer: "elk"
                     } }, options === null || options === void 0 ? void 0 : options.mermaidConfig)
@@ -75,4 +70,4 @@ const rehypeMermaidCtm = (options) => {
         }
     });
 };
-exports.default = rehypeMermaidCtm;
+export default rehypeMermaidCtm;
