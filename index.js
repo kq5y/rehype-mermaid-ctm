@@ -52,6 +52,7 @@ const rehypeMermaidCtm = (options = {}) => {
         });
         for (const { content, pre, parent } of blocks) {
             const { data: svgData } = yield renderMermaid(browser, content, "svg", {
+                backgroundColor: "transparent",
                 mermaidConfig: Object.assign({ flowchart: {
                         defaultRenderer: "elk",
                     } }, options === null || options === void 0 ? void 0 : options.mermaidConfig),
