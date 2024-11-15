@@ -103,12 +103,10 @@ const rehypeMermaidCtm = (options = {}) => {
             else if (outputType === "img-svg") {
                 const svgString = Buffer.from(outputData).toString("utf-8");
                 const dimensions = getSvgDimensions(svgString);
-                const imgElement = makeElement("img", {
-                    src: `data:image/svg+xml;base64,${btoa(svgString)}`,
-                    className: "mermaid-image",
-                    width: `${dimensions.width}px`,
-                    height: `${dimensions.height}px`,
-                });
+                const imgElement = makeElement("img", Object.assign({ src: `data:image/svg+xml;base64,${btoa(svgString)}`, className: "mermaid-image", width: `${dimensions.width}px`, height: `${dimensions.height}px`, alt: "mermaid-image" }, (options.imgAsyncLazy ? {
+                    decoding: "async",
+                    loading: "lazy",
+                } : {})));
                 parent.children[nodeIndex] = makeElement("div", {
                     className: "mermaid-block",
                 }, [imgElement]);
@@ -116,12 +114,10 @@ const rehypeMermaidCtm = (options = {}) => {
             else if (outputType === "img-png") {
                 const dimensions = getPngDimensions(outputData);
                 const pngString = String.fromCharCode(...outputData);
-                const imgElement = makeElement("img", {
-                    src: `data:image/png;base64,${btoa(pngString)}`,
-                    className: "mermaid-image",
-                    width: `${dimensions.width}px`,
-                    height: `${dimensions.height}px`,
-                });
+                const imgElement = makeElement("img", Object.assign({ src: `data:image/png;base64,${btoa(pngString)}`, className: "mermaid-image", width: `${dimensions.width}px`, height: `${dimensions.height}px`, alt: "mermaid-image" }, (options.imgAsyncLazy ? {
+                    decoding: "async",
+                    loading: "lazy",
+                } : {})));
                 parent.children[nodeIndex] = makeElement("div", {
                     className: "mermaid-block",
                 }, [imgElement]);
