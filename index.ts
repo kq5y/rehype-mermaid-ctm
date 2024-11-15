@@ -71,6 +71,8 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
         continue;
       }
       const svgElement = svgHtml.children[0] as Element;
+      const svgStyles = (svgElement.properties.style as string).split(";");
+      svgElement.properties.style = svgStyles[0] + ";";
       const nodeIndex = parent.children.indexOf(pre);
       parent.children[nodeIndex] = {
         type: "element",
