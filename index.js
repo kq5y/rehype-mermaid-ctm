@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { visitParents } from "unist-util-visit-parents";
 import puppeteer from "puppeteer";
 import { renderMermaid } from "@mermaid-js/mermaid-cli";
+import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 function isMermaidElement(node) {
     if (node.tagName !== "code") {
         return false;
@@ -55,6 +56,12 @@ const rehypeMermaidCtm = (options = {}) => {
                         defaultRenderer: "elk",
                     } }, options === null || options === void 0 ? void 0 : options.mermaidConfig),
             });
+            const svgString = Buffer.from(svgData).toString("utf-8");
+            const svgHtml = fromHtmlIsomorphic(svgString);
+            if (svgHtml.children.length === 0) {
+                continue;
+            }
+            const svgElement = svgHtml.children[0];
             const nodeIndex = parent.children.indexOf(pre);
             parent.children[nodeIndex] = {
                 type: "element",
@@ -63,10 +70,7 @@ const rehypeMermaidCtm = (options = {}) => {
                     className: "mermaid-block",
                 },
                 children: [
-                    {
-                        type: "text",
-                        value: Buffer.from(svgData).toString("utf-8"),
-                    },
+                    svgElement
                 ],
             };
         }

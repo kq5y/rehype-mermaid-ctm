@@ -4,6 +4,7 @@ import mermaid from "mermaid";
 import { visitParents } from "unist-util-visit-parents";
 import puppeteer from "puppeteer";
 import { renderMermaid } from "@mermaid-js/mermaid-cli";
+import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 
 interface RehypeMermaidCtmConfig {
   mermaidConfig?: Parameters<typeof mermaid.initialize>[0];
@@ -64,6 +65,12 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
           ...options?.mermaidConfig,
         },
       });
+      const svgString = Buffer.from(svgData).toString("utf-8");
+      const svgHtml = fromHtmlIsomorphic(svgString);
+      if(svgHtml.children.length === 0){
+        continue;
+      }
+      const svgElement = svgHtml.children[0] as Element;
       const nodeIndex = parent.children.indexOf(pre);
       parent.children[nodeIndex] = {
         type: "element",
@@ -72,10 +79,7 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
           className: "mermaid-block",
         },
         children: [
-          {
-            type: "text",
-            value: Buffer.from(svgData).toString("utf-8"),
-          },
+          svgElement
         ],
       };
     }

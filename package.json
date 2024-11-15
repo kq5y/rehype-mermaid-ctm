@@ -18,6 +18,7 @@
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.4.0",
     "@types/hast": "^3.0.4",
+    "hast-util-from-html-isomorphic": "^2.0.0",
     "mermaid": "^11.4.0",
     "puppeteer": "^23.8.0",
     "typescript": "^5.6.3",
