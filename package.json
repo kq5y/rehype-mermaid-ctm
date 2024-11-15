@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "rehype-mermaid-ctm",
   "scripts": {
-    "build": "tsc --build --clean && tsc --build --declaration --emitDeclarationOnly"
+    "build": "tsc --build --clean && tsc --build --declaration"
   },
   "author": "kq5y",
   "type": "module",
+  "main": "./index.js",
   "files": ["index.js", "index.d.ts"],
   "exports": "./index.js",
   "license": "MIT",
