@@ -1,7 +1,7 @@
 {
-  "name": "rehype-mermaid",
+  "name": "rehype-mermaid-ctm",
   "version": "1.0.0",
-  "description": "rehype-mermaid",
+  "description": "rehype-mermaid-ctm",
   "scripts": {
     "build": "tsc --build --clean && tsc --build --declaration --emitDeclarationOnly"
   },
