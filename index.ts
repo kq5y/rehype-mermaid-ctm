@@ -46,6 +46,18 @@ function makeElement(
   };
 }
 
+function getSvgDimensions(svgString: string) {
+  const viewBoxMatch = svgString.match(/viewBox="([\d.\s-]+)"/);
+  if (viewBoxMatch) {
+    const viewBoxValue = viewBoxMatch[1].split(" ");
+    return {
+      width: Number.parseFloat(viewBoxValue[2]),
+      height: Number.parseFloat(viewBoxValue[3]),
+    };
+  }
+  return { width: undefined, height: undefined };
+}
+
 function getPngDimensions(data: Uint8Array) {
   const IHDR_OFFSET = 8;
   const width = data
@@ -117,9 +129,12 @@ const rehypeMermaidCtm = (options: RehypeMermaidCtmConfig = {}) => {
         );
       } else if (outputType === "img-svg") {
         const svgString = Buffer.from(outputData).toString("utf-8");
+        const dimensions = getSvgDimensions(svgString);
         const imgElement = makeElement("img", {
           src: `data:image/svg+xml;base64,${btoa(svgString)}`,
           className: "mermaid-image",
+          width: `${dimensions.width}px`,
+          height: `${dimensions.height}px`,
         });
         parent.children[nodeIndex] = makeElement(
           "div",
