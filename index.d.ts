@@ -1,4 +1,4 @@
-import { type Root } from "hast";
+import type { Root } from "hast";
 import mermaid from "mermaid";
 type OutputType = "inline-svg" | "img-svg" | "img-png";
 interface RehypeMermaidCtmConfig {

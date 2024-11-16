@@ -1,4 +1,4 @@
-import { type Root, Element } from "hast";
+import type { Root, Element } from "hast";
 
 import mermaid from "mermaid";
 import { visitParents } from "unist-util-visit-parents";
